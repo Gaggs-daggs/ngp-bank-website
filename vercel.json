@@ -1,0 +1,41 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "server-production.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "*.js",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server-production.js"
+    },
+    {
+      "src": "/submit-form",
+      "dest": "/server-production.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/server-production.js"
+    }
+  ],
+  "env": {
+    "ZOHO_CLIENT_ID": "1000.S6RJE8WU68V4G517VDGM7FZNOXDIAD",
+    "ZOHO_CLIENT_SECRET": "4c2a9748f6d6f5cc57ba3937dad4f20f7d1a9ad0cb",
+    "ZOHO_REFRESH_TOKEN": "1000.82173fa70f31d8ff4accc0f2eaddc173.82edad5eb628dd351546c860fb3da682",
+    "NODE_ENV": "production"
+  }
+}
