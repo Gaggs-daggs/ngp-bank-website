@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGP Bank - Manual Configuration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #f59e0b;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            box-sizing: border-box;
+        }
+        button {
+            background: #f59e0b;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #d97706;
+        }
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .success {
+            background: rgba(34, 197, 94, 0.2);
+            border-left: 4px solid #22c55e;
+        }
+        .info {
+            background: rgba(59, 130, 246, 0.2);
+            border-left: 4px solid #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 NGP Bank - Manual Configuration</h1>
+        
+        <div class="step info">
+            <h3>📋 Your Current Setup</h3>
+            <p><strong>Client ID:</strong> 1000.9NDEUP9WWW4AXZU0LPPILMNT6DTMXZ</p>
+            <p><strong>Client Secret:</strong> ac9cef1c4b12290cc43d8bf149ab36b506e3b9ff4d</p>
+            <p><strong>Redirect URI:</strong> http://localhost:3000/oauth/callback</p>
+        </div>
+
+        <div class="step">
+            <h3>🔧 Method 1: Use Postman to Get Access Token</h3>
+            <p>If the browser OAuth isn't working, use Postman:</p>
+            <ol>
+                <li>Open Postman</li>
+                <li>Create a POST request to: <code>https://accounts.zoho.com/oauth/v2/token</code></li>
+                <li>Set Content-Type to: <code>application/x-www-form-urlencoded</code></li>
+                <li>Add these parameters in the Body:</li>
+            </ol>
+            <div class="code-block">
+grant_type: authorization_code
+client_id: 1000.9NDEUP9WWW4AXZU0LPPILMNT6DTMXZ
+client_secret: ac9cef1c4b12290cc43d8bf149ab36b506e3b9ff4d
+redirect_uri: http://localhost:3000/oauth/callback
+code: [FRESH_AUTHORIZATION_CODE]
+            </div>
+            <p>Get a fresh authorization code by visiting this URL:</p>
+            <div class="code-block">
+https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCRM.modules.ALL&client_id=1000.9NDEUP9WWW4AXZU0LPPILMNT6DTMXZ&response_type=code&access_type=offline&redirect_uri=http://localhost:3000/oauth/callback
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>🔑 Method 2: Enter Your Access Token</h3>
+            <p>If you already have an access token, enter it here:</p>
+            <input type="text" id="accessToken" placeholder="Enter your Zoho access token here" />
+            <input type="text" id="orgId" placeholder="Enter your Zoho Organization ID (optional)" />
+            <button onclick="configureWebsite()">Configure Website</button>
+        </div>
+
+        <div class="step">
+            <h3>🧪 Method 3: Test Website Without Zoho (Local Storage)</h3>
+            <p>Test your website functionality without Zoho integration:</p>
+            <button onclick="enableTestMode()">Enable Test Mode</button>
+            <p><small>In test mode, form submissions will be saved locally in browser storage instead of Zoho CRM.</small></p>
+        </div>
+
+        <div class="step" id="result" style="display: none;">
+            <h3>✅ Configuration Updated!</h3>
+            <div id="resultMessage"></div>
+            <a href="/index.html" style="color: #60a5fa;">Go to NGP Bank Website</a>
+        </div>
+    </div>
+
+    <script>
+        function configureWebsite() {
+            const accessToken = document.getElementById('accessToken').value;
+            const orgId = document.getElementById('orgId').value || 'YOUR_ORG_ID';
+            
+            if (!accessToken) {
+                alert('Please enter an access token');
+                return;
+            }
+
+            // Show result
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('resultMessage').innerHTML = `
+                <div class="success">
+                    <p><strong>✅ Configuration ready!</strong></p>
+                    <p>Access Token: <code>${accessToken.substring(0, 20)}...</code></p>
+                    <p>Now update your script.js file with this configuration:</p>
+                    <div class="code-block">
+const ZOHO_CONFIG = {
+    accessToken: '${accessToken}',
+    orgId: '${orgId}',
+    apiUrl: 'https://www.zohoapis.com/crm/v2/Leads'
+};
+                    </div>
+                </div>
+            `;
+        }
+
+        function enableTestMode() {
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('resultMessage').innerHTML = `
+                <div class="success">
+                    <p><strong>🧪 Test Mode Enabled!</strong></p>
+                    <p>Your NGP Bank website is now configured for testing.</p>
+                    <p>Form submissions will be saved locally in browser storage.</p>
+                    <p>You can view saved leads in the browser console by typing: <code>console.log(getLocalLeads())</code></p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

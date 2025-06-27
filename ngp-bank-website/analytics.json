@@ -1,0 +1,19 @@
+{
+  "totalVisits": 5,
+  "formSubmissions": 2,
+  "successfulLeads": 2,
+  "failedLeads": 0,
+  "serviceStats": {
+    "loan": 1,
+    "credit_card": 0,
+    "insurance": 1,
+    "contact": 0
+  },
+  "dailyStats": {
+    "2025-06-27": {
+      "visits": 5,
+      "leads": 2
+    }
+  },
+  "startTime": "2025-06-27T13:14:50.041Z"
+}

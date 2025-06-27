@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: ngp-bank-website
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server-production.js
+    envVars:
+      - key: ZOHO_CLIENT_ID
+        value: 1000.S6RJE8WU68V4G517VDGM7FZNOXDIAD
+      - key: ZOHO_CLIENT_SECRET
+        value: 4c2a9748f6d6f5cc57ba3937dad4f20f7d1a9ad0cb
+      - key: ZOHO_REFRESH_TOKEN
+        value: 1000.82173fa70f31d8ff4accc0f2eaddc173.82edad5eb628dd351546c860fb3da682
+      - key: NODE_ENV
+        value: production

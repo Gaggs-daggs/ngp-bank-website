@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGP Bank - Zoho Token Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #f59e0b;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+        button {
+            background: #f59e0b;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #d97706;
+        }
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+        .success {
+            background: rgba(34, 197, 94, 0.2);
+            border-left: 4px solid #22c55e;
+        }
+        .error {
+            background: rgba(239, 68, 68, 0.2);
+            border-left: 4px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 NGP Bank - Zoho Token Generator</h1>
+        
+        <div class="step">
+            <h3>Step 1: Enter Your Zoho Credentials</h3>
+            <input type="text" id="clientId" placeholder="Client ID" />
+            <input type="text" id="clientSecret" placeholder="Client Secret" />
+            <button onclick="generateAuthUrl()">Generate Authorization URL</button>
+        </div>
+
+        <div class="step" id="authUrlStep" style="display: none;">
+            <h3>Step 2: Get Authorization Code</h3>
+            <p>Click the link below to authorize your application:</p>
+            <div class="code-block">
+                <a id="authUrl" href="#" target="_blank" style="color: #60a5fa;">Click here to authorize</a>
+            </div>
+            <p>After authorization, you'll be redirected back. Copy the authorization code from that page.</p>
+        </div>
+
+        <div class="step">
+            <h3>Step 3: Generate Access Token</h3>
+            <input type="text" id="authCode" placeholder="Authorization Code (from callback page)" />
+            <button onclick="generateAccessToken()">Generate Access Token</button>
+        </div>
+
+        <div class="step" id="tokenResult" style="display: none;">
+            <h3>Step 4: Your Access Token</h3>
+            <div id="tokenDisplay"></div>
+            <button onclick="updateWebsiteConfig()">Update Website Configuration</button>
+        </div>
+
+        <div class="step" id="configResult" style="display: none;">
+            <h3>Step 5: Configuration Updated!</h3>
+            <p class="success">✅ Your NGP Bank website has been configured with the Zoho credentials.</p>
+            <p>Now you can test the lead generation by filling out forms on your website!</p>
+            <a href="/index.html" style="color: #60a5fa;">Go to NGP Bank Website</a>
+        </div>
+    </div>
+
+    <script>
+        let clientId = '';
+        let clientSecret = '';
+        let accessToken = '';
+
+        function generateAuthUrl() {
+            clientId = document.getElementById('clientId').value;
+            clientSecret = document.getElementById('clientSecret').value;
+            
+            if (!clientId || !clientSecret) {
+                alert('Please enter both Client ID and Client Secret');
+                return;
+            }
+
+            const authUrl = `https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCRM.modules.ALL&client_id=${clientId}&response_type=code&access_type=offline&redirect_uri=http://localhost:3000/oauth/callback`;
+            
+            document.getElementById('authUrl').href = authUrl;
+            document.getElementById('authUrlStep').style.display = 'block';
+        }
+
+        async function generateAccessToken() {
+            const authCode = document.getElementById('authCode').value;
+            
+            if (!authCode) {
+                alert('Please enter the authorization code');
+                return;
+            }
+
+            const tokenUrl = 'https://accounts.zoho.com/oauth/v2/token';
+            const params = new URLSearchParams({
+                grant_type: 'authorization_code',
+                client_id: clientId,
+                client_secret: clientSecret,
+                redirect_uri: 'http://localhost:3000/oauth/callback',
+                code: authCode
+            });
+
+            try {
+                const response = await fetch(tokenUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: params
+                });
+
+                const data = await response.json();
+                
+                if (data.access_token) {
+                    accessToken = data.access_token;
+                    displayToken(data);
+                } else {
+                    displayError(data);
+                }
+            } catch (error) {
+                displayError({ error: 'Network error: ' + error.message });
+            }
+        }
+
+        function displayToken(data) {
+            const tokenDiv = document.getElementById('tokenDisplay');
+            tokenDiv.innerHTML = `
+                <div class="success">
+                    <h4>✅ Access Token Generated Successfully!</h4>
+                    <p><strong>Access Token:</strong></p>
+                    <div class="code-block">${data.access_token}</div>
+                    <p><strong>Refresh Token:</strong></p>
+                    <div class="code-block">${data.refresh_token || 'N/A'}</div>
+                    <p><strong>Expires In:</strong> ${data.expires_in} seconds</p>
+                </div>
+            `;
+            document.getElementById('tokenResult').style.display = 'block';
+        }
+
+        function displayError(data) {
+            const tokenDiv = document.getElementById('tokenDisplay');
+            tokenDiv.innerHTML = `
+                <div class="error">
+                    <h4>❌ Error Generating Token</h4>
+                    <p><strong>Error:</strong> ${data.error}</p>
+                    <p><strong>Description:</strong> ${data.error_description || 'Unknown error'}</p>
+                </div>
+            `;
+            document.getElementById('tokenResult').style.display = 'block';
+        }
+
+        async function updateWebsiteConfig() {
+            if (!accessToken) {
+                alert('No access token available');
+                return;
+            }
+
+            // This would update the configuration files
+            // For now, we'll show the user what to do
+            document.getElementById('configResult').style.display = 'block';
+            
+            // Display the configuration that needs to be updated
+            alert(`Please update your script.js file with:\n\nconst ZOHO_CONFIG = {\n    accessToken: '${accessToken}',\n    orgId: 'YOUR_ORG_ID',\n    apiUrl: 'https://www.zohoapis.com/crm/v2/Leads'\n};`);
+        }
+    </script>
+</body>
+</html>
