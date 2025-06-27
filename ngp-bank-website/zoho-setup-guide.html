@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGP Bank - Zoho CRM Setup Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            border-left: 4px solid #f59e0b;
+        }
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .success {
+            background: rgba(34, 197, 94, 0.2);
+            border-left: 4px solid #22c55e;
+        }
+        .warning {
+            background: rgba(245, 158, 11, 0.2);
+            border-left: 4px solid #f59e0b;
+        }
+        .info {
+            background: rgba(59, 130, 246, 0.2);
+            border-left: 4px solid #3b82f6;
+        }
+        button {
+            background: #f59e0b;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #d97706;
+        }
+        .numbered-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding-left: 0;
+        }
+        .numbered-list li {
+            counter-increment: step-counter;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            position: relative;
+            padding-left: 60px;
+        }
+        .numbered-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 20px;
+            top: 15px;
+            background: #f59e0b;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏦 NGP Bank - Zoho CRM Setup Guide</h1>
+        
+        <div class="step info">
+            <h3>📊 Current Status</h3>
+            <p>✅ Website working perfectly</p>
+            <p>✅ Forms collecting data</p>
+            <p>✅ Local storage backup active</p>
+            <p>❌ Zoho CRM integration needs access token</p>
+        </div>
+
+        <div class="step">
+            <h3>🎯 Goal: Automatic Lead Creation in Zoho CRM</h3>
+            <p>When someone fills out your form → Automatic lead in Zoho CRM with all details</p>
+        </div>
+
+        <div class="step">
+            <h3>🔧 Method 1: Quick Browser-Based Token Generation</h3>
+            <ol class="numbered-list">
+                <li>
+                    <strong>Open Zoho Developer Console</strong><br>
+                    Go to: <a href="https://api-console.zoho.com/" target="_blank" style="color: #60a5fa;">https://api-console.zoho.com/</a>
+                </li>
+                <li>
+                    <strong>Create Self Client</strong><br>
+                    Click "Add Client" → Choose "Self Client" (easier than server-based)
+                </li>
+                <li>
+                    <strong>Get Self Client Credentials</strong><br>
+                    You'll get a Client ID and Client Secret
+                </li>
+                <li>
+                    <strong>Generate Token</strong><br>
+                    In the same console, you can generate a token directly for testing
+                </li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>🔧 Method 2: Use Postman (Most Reliable)</h3>
+            <ol class="numbered-list">
+                <li>
+                    <strong>Download Postman</strong><br>
+                    Get it from: <a href="https://www.postman.com/downloads/" target="_blank" style="color: #60a5fa;">https://www.postman.com/downloads/</a>
+                </li>
+                <li>
+                    <strong>Get Fresh Authorization Code</strong><br>
+                    Visit this URL (replace CLIENT_ID with yours):
+                    <div class="code-block">
+https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCRM.modules.ALL&client_id=YOUR_CLIENT_ID&response_type=code&access_type=offline&redirect_uri=http://localhost:3000/oauth/callback
+                    </div>
+                </li>
+                <li>
+                    <strong>Copy Authorization Code</strong><br>
+                    From the redirect URL after "code="
+                </li>
+                <li>
+                    <strong>POST Request in Postman</strong><br>
+                    URL: <code>https://accounts.zoho.com/oauth/v2/token</code><br>
+                    Method: POST<br>
+                    Content-Type: application/x-www-form-urlencoded<br>
+                    Body parameters:
+                    <div class="code-block">
+grant_type: authorization_code
+client_id: YOUR_CLIENT_ID
+client_secret: YOUR_CLIENT_SECRET
+redirect_uri: http://localhost:3000/oauth/callback
+code: YOUR_AUTHORIZATION_CODE
+                    </div>
+                </li>
+            </ol>
+        </div>
+
+        <div class="step warning">
+            <h3>⚠️ Important Tips for Success</h3>
+            <ul>
+                <li><strong>Server must be running</strong> during OAuth flow</li>
+                <li><strong>Use authorization code immediately</strong> (expires in 3-10 minutes)</li>
+                <li><strong>Each code can only be used once</strong></li>
+                <li><strong>Keep your token secure</strong> - don't share it</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>🔧 Method 3: Test with Sample Token</h3>
+            <p>For immediate testing, you can use a placeholder token to see the flow:</p>
+            <button onclick="showTestFlow()">Show Test Configuration</button>
+            <div id="testFlow" style="display: none; margin-top: 15px;">
+                <div class="code-block">
+// Update script.js with this configuration:
+const ZOHO_CONFIG = {
+    accessToken: 'YOUR_ACTUAL_TOKEN_HERE',
+    orgId: 'YOUR_ORG_ID',
+    apiUrl: 'https://www.zohoapis.com/crm/v2/Leads'
+};
+                </div>
+            </div>
+        </div>
+
+        <div class="step success">
+            <h3>✅ Once You Have the Access Token</h3>
+            <ol class="numbered-list">
+                <li>
+                    <strong>Update script.js</strong><br>
+                    Replace the token in ZOHO_CONFIG
+                </li>
+                <li>
+                    <strong>Set up CRM fields</strong><br>
+                    Create custom fields in Zoho CRM for loan details, card types, etc.
+                </li>
+                <li>
+                    <strong>Test the integration</strong><br>
+                    Submit a form and check your Zoho CRM for the new lead
+                </li>
+            </ol>
+        </div>
+
+        <div class="step info">
+            <h3>🚀 What Happens After Setup</h3>
+            <p><strong>Automatic Lead Creation Process:</strong></p>
+            <ol>
+                <li>Customer fills out form on your website</li>
+                <li>JavaScript captures form data</li>
+                <li>API call made to Zoho CRM with customer details</li>
+                <li>Lead created in CRM with all information</li>
+                <li>Customer sees success message</li>
+                <li>You get notified of new lead in Zoho</li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>🔄 Current Backup System</h3>
+            <p>Even without Zoho token, your website is saving all leads locally. You can export them anytime:</p>
+            <button onclick="exportLeads()">Export Current Leads</button>
+            <div id="leadsExport"></div>
+        </div>
+
+        <div class="step">
+            <h3>📞 Need Help?</h3>
+            <p>If you need assistance with any step, I can help you:</p>
+            <ul>
+                <li>Generate the access token</li>
+                <li>Update the website configuration</li>
+                <li>Set up Zoho CRM fields</li>
+                <li>Test the integration</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showTestFlow() {
+            document.getElementById('testFlow').style.display = 'block';
+        }
+
+        function exportLeads() {
+            // This would export the leads from localStorage
+            const leads = JSON.parse(localStorage.getItem('ngp_leads') || '[]');
+            const exportDiv = document.getElementById('leadsExport');
+            
+            if (leads.length > 0) {
+                exportDiv.innerHTML = `
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                        <h4>📊 Current Leads (${leads.length} total):</h4>
+                        <pre style="white-space: pre-wrap; font-size: 12px; max-height: 200px; overflow-y: auto;">
+${JSON.stringify(leads, null, 2)}
+                        </pre>
+                        <p><small>These leads are currently stored locally and will be automatically sent to Zoho once the token is configured.</small></p>
+                    </div>
+                `;
+            } else {
+                exportDiv.innerHTML = `
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px;">
+                        <p>No leads found in local storage. Submit a form first to see leads here.</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
