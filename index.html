@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGP Bank - Your Trusted Financial Partner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>NGP Bank</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#loans">Loans</a></li>
+                    <li><a href="#credit-cards">Credit Cards</a></li>
+                    <li><a href="#insurance">Insurance</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Welcome to NGP Bank</h1>
+                <p>Your trusted financial partner for loans, credit cards, and insurance solutions</p>
+                <button class="cta-button" onclick="scrollToSection('services')">Explore Our Services</button>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services">
+            <div class="container">
+                <h2>Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card" onclick="scrollToSection('loans')">
+                        <div class="service-icon">🏠</div>
+                        <h3>Loans</h3>
+                        <p>Personal, Home, and Business loans with competitive rates</p>
+                    </div>
+                    <div class="service-card" onclick="scrollToSection('credit-cards')">
+                        <div class="service-icon">💳</div>
+                        <h3>Credit Cards</h3>
+                        <p>Premium credit cards with exclusive benefits and rewards</p>
+                    </div>
+                    <div class="service-card" onclick="scrollToSection('insurance')">
+                        <div class="service-icon">🛡️</div>
+                        <h3>Insurance</h3>
+                        <p>Comprehensive insurance solutions for your peace of mind</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loans Section -->
+        <section id="loans" class="section">
+            <div class="container">
+                <h2>Loan Services</h2>
+                <div class="content-grid">
+                    <div class="content-info">
+                        <h3>Get the Best Loan Rates</h3>
+                        <ul>
+                            <li>Personal Loans up to $100,000</li>
+                            <li>Home Loans with flexible terms</li>
+                            <li>Business Loans for entrepreneurs</li>
+                            <li>Quick approval process</li>
+                        </ul>
+                    </div>
+                    <div class="form-container">
+                        <h3>Apply for a Loan</h3>
+                        <form id="loanForm" class="lead-form">
+                            <input type="hidden" name="service_type" value="loan">
+                            <input type="text" name="first_name" placeholder="First Name" required>
+                            <input type="text" name="last_name" placeholder="Last Name" required>
+                            <input type="email" name="email" placeholder="Email Address" required>
+                            <input type="tel" name="phone" placeholder="Phone Number" required>
+                            <select name="loan_type" required>
+                                <option value="">Select Loan Type</option>
+                                <option value="personal">Personal Loan</option>
+                                <option value="home">Home Loan</option>
+                                <option value="business">Business Loan</option>
+                            </select>
+                            <input type="number" name="loan_amount" placeholder="Loan Amount ($)" required>
+                            <textarea name="message" placeholder="Additional Information" rows="4"></textarea>
+                            <button type="submit">Submit Application</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Credit Cards Section -->
+        <section id="credit-cards" class="section">
+            <div class="container">
+                <h2>Credit Card Services</h2>
+                <div class="content-grid">
+                    <div class="content-info">
+                        <h3>Premium Credit Cards</h3>
+                        <ul>
+                            <li>Cashback rewards up to 5%</li>
+                            <li>No annual fees for first year</li>
+                            <li>Travel benefits and insurance</li>
+                            <li>24/7 customer support</li>
+                        </ul>
+                    </div>
+                    <div class="form-container">
+                        <h3>Apply for Credit Card</h3>
+                        <form id="creditCardForm" class="lead-form">
+                            <input type="hidden" name="service_type" value="credit_card">
+                            <input type="text" name="first_name" placeholder="First Name" required>
+                            <input type="text" name="last_name" placeholder="Last Name" required>
+                            <input type="email" name="email" placeholder="Email Address" required>
+                            <input type="tel" name="phone" placeholder="Phone Number" required>
+                            <select name="card_type" required>
+                                <option value="">Select Card Type</option>
+                                <option value="platinum">Platinum Card</option>
+                                <option value="gold">Gold Card</option>
+                                <option value="silver">Silver Card</option>
+                            </select>
+                            <input type="number" name="annual_income" placeholder="Annual Income ($)" required>
+                            <textarea name="message" placeholder="Additional Information" rows="4"></textarea>
+                            <button type="submit">Submit Application</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Insurance Section -->
+        <section id="insurance" class="section">
+            <div class="container">
+                <h2>Insurance Services</h2>
+                <div class="content-grid">
+                    <div class="content-info">
+                        <h3>Comprehensive Insurance Coverage</h3>
+                        <ul>
+                            <li>Life Insurance with flexible terms</li>
+                            <li>Health Insurance for families</li>
+                            <li>Auto Insurance with discounts</li>
+                            <li>Home Insurance protection</li>
+                        </ul>
+                    </div>
+                    <div class="form-container">
+                        <h3>Get Insurance Quote</h3>
+                        <form id="insuranceForm" class="lead-form">
+                            <input type="hidden" name="service_type" value="insurance">
+                            <input type="text" name="first_name" placeholder="First Name" required>
+                            <input type="text" name="last_name" placeholder="Last Name" required>
+                            <input type="email" name="email" placeholder="Email Address" required>
+                            <input type="tel" name="phone" placeholder="Phone Number" required>
+                            <select name="insurance_type" required>
+                                <option value="">Select Insurance Type</option>
+                                <option value="life">Life Insurance</option>
+                                <option value="health">Health Insurance</option>
+                                <option value="auto">Auto Insurance</option>
+                                <option value="home">Home Insurance</option>
+                            </select>
+                            <input type="date" name="date_of_birth" placeholder="Date of Birth" required>
+                            <select name="coverage_amount" required>
+                                <option value="">Select Coverage Amount</option>
+                                <option value="50000">$50,000</option>
+                                <option value="100000">$100,000</option>
+                                <option value="250000">$250,000</option>
+                                <option value="500000">$500,000</option>
+                                <option value="1000000">$1,000,000+</option>
+                            </select>
+                            <textarea name="message" placeholder="Additional Information" rows="4"></textarea>
+                            <button type="submit">Get Quote</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>Phone</h3>
+                        <p>1-800-NGP-BANK</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Email</h3>
+                        <p>info@ngpbank.com</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Address</h3>
+                        <p>123 Financial District<br>Banking City, BC 12345</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 NGP Bank. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

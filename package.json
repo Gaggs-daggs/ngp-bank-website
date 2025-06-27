@@ -1,0 +1,24 @@
+{
+  "name": "ngp-bank-website",
+  "version": "1.0.0",
+  "description": "NGP Bank Website with Zoho CRM Integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "banking",
+    "website",
+    "zoho",
+    "crm",
+    "lead-generation"
+  ],
+  "author": "NGP Bank",
+  "license": "ISC",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {}
+}
