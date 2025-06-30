@@ -368,6 +368,37 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
+    // Handle Zoho webhook notifications
+    if (req.method === 'POST' && parsedUrl.pathname === '/webhook/zoho') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        
+        req.on('end', async () => {
+            try {
+                console.log('🔔 Zoho webhook received:', body);
+                const webhookData = JSON.parse(body);
+                
+                // Process the webhook data
+                // You can add custom business logic here
+                console.log('📊 Processing webhook data:', {
+                    module: webhookData.module,
+                    operation: webhookData.operation,
+                    recordId: webhookData.ids
+                });
+                
+                res.writeHead(200, { 'Content-Type': 'application/json', ...corsHeaders });
+                res.end(JSON.stringify({ success: true, message: 'Webhook processed successfully' }));
+            } catch (error) {
+                console.error('❌ Webhook processing error:', error);
+                res.writeHead(400, { 'Content-Type': 'application/json', ...corsHeaders });
+                res.end(JSON.stringify({ success: false, error: error.message }));
+            }
+        });
+        return;
+    }
+
     // Form submission
     if (req.method === 'POST' && parsedUrl.pathname === '/submit-form') {
         let body = '';
