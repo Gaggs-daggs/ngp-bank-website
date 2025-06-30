@@ -1,0 +1,45 @@
+{
+  "name": "NGP Bank Lead Integration",
+  "version": "1.0.0",
+  "description": "Bank website integration extension for Zoho CRM to handle lead generation and management",
+  "author": "NGP Bank",
+  "category": "Banking & Finance",
+  "permissions": {
+    "modules": ["Leads", "Contacts", "Accounts"],
+    "apis": ["create", "read", "update"],
+    "webhooks": true,
+    "workflow": true
+  },
+  "extension_type": "standalone",
+  "oauth": {
+    "scopes": ["ZohoCRM.modules.ALL", "ZohoCRM.users.READ"],
+    "redirect_uri": "https://your-bank-website.com/oauth/callback"
+  },
+  "webhooks": [
+    {
+      "url": "https://your-bank-website.com/webhook/zoho",
+      "events": ["Leads.create", "Leads.update", "Leads.delete"],
+      "method": "POST"
+    }
+  ],
+  "functions": [
+    {
+      "name": "processLead",
+      "description": "Process bank lead with additional validation and routing"
+    }
+  ],
+  "settings": [
+    {
+      "name": "webhook_url",
+      "type": "url",
+      "label": "Bank Website Webhook URL",
+      "description": "URL where Zoho will send webhook notifications"
+    },
+    {
+      "name": "lead_routing",
+      "type": "boolean",
+      "label": "Enable Lead Routing",
+      "description": "Automatically route leads based on service type"
+    }
+  ]
+}

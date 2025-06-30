@@ -4,10 +4,298 @@
     box-sizing: border-box;
 }
 
+/* Premium Banking Animations & Effects */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Smooth loading animations */
+.hero-content {
+    animation: fadeInUp 1s ease-out;
+}
+
+.service-card {
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.service-card:nth-child(1) { animation-delay: 0.1s; }
+.service-card:nth-child(2) { animation-delay: 0.2s; }
+.service-card:nth-child(3) { animation-delay: 0.3s; }
+
+/* Professional gradient overlays */
+.navbar::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #3b82f6, #10b981, #f59e0b);
+}
+
+/* Enhanced button styles */
+.lead-form button {
+    position: relative;
+    overflow: hidden;
+}
+
+.lead-form button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.lead-form button:hover::before {
+    left: 100%;
+}
+
+/* Professional card hover effects */
+.contact-item {
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.contact-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(30, 58, 138, 0.1);
+    border-color: #3b82f6;
+}
+
+.contact-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #10b981);
+    border-radius: 15px 15px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.contact-item:hover::before {
+    opacity: 1;
+}
+
+/* Professional typography enhancements */
+h1, h2, h3 {
+    letter-spacing: -0.025em;
+    font-weight: 700;
+}
+
+.section h2 {
+    position: relative;
+    display: inline-block;
+}
+
+.section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #10b981);
+    border-radius: 2px;
+}
+
+/* Professional form styling */
+.lead-form input:valid {
+    border-color: #10b981;
+}
+
+.lead-form input:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: #ef4444;
+}
+
+/* Professional loading states */
+.form-container.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.form-container.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 3px solid #e2e8f0;
+    border-top: 3px solid #3b82f6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Professional success states */
+.success-message {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    color: #047857;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 4px solid #10b981;
+    margin: 15px 0;
+    font-weight: 500;
+    animation: slideInFromLeft 0.5s ease-out;
+}
+
+.error-message {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    color: #dc2626;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border-left: 4px solid #ef4444;
+    margin: 15px 0;
+    font-weight: 500;
+    animation: slideInFromLeft 0.5s ease-out;
+}
+
+/* Professional scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #2563eb, #1e3a8a);
+}
+
+/* Professional focus indicators */
+.nav-menu a:focus,
+.cta-button:focus,
+.lead-form button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+/* Professional glass effect for premium feel */
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="25" cy="75" r="1" fill="%23ffffff" opacity="0.05"/><circle cx="75" cy="25" r="1" fill="%23ffffff" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+    pointer-events: none;
+}
+
+/* Professional mobile enhancements */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+    }
+    
+    .section h2 {
+        font-size: 2rem;
+    }
+    
+    .service-card {
+        padding: 30px 20px;
+    }
+    
+    .contact-item {
+        padding: 25px 20px;
+    }
+}
+
+/* Professional print styles */
+@media print {
+    .navbar,
+    .cta-button,
+    .lead-form {
+        display: none;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .service-card,
+    .contact-item {
+        box-shadow: none;
+        border: 1px solid #ccc;
+    }
+}
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: #1a202c;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 50%, #e2e8f0 100%);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Professional background pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.02) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
 }
 
 /* Navbar styling */
